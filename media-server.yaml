@@ -1,0 +1,68 @@
+services:
+  plex:
+    container_name: plex
+    image: ghcr.io/linuxserver/plex
+    environment:
+      - PUID=130
+      - PGID=135
+      - VERSION=latest
+    ports:
+      - "32400:32400"
+    volumes:
+      - /var/lib/plexmediaserver:/config
+      - /etc/letsencrypt/live/plex.ssmedia.me:/etc/letsencrypt/live/plex.ssmedia.me
+      - rclone:/mnt/union
+      - /data1/plex:/dev/shm
+    healthcheck:
+      test: ls /mnt/union || exit 1
+      interval: 1m
+      timeout: 15s
+      retries: 3
+      start_period: 15s
+    networks: 
+      - internal-containers
+    restart: unless-stopped
+
+  overseerr:
+    container_name: overseerr
+    image: sctx/overseerr:latest
+    depends_on:
+      sonarr:
+        condition: service_healthy
+        restart: false
+      radarr:
+        condition: service_healthy
+        restart: false
+      plex:
+        condition: service_started
+        required: false
+        restart: false
+    environment:
+      - TZ=America/Chicago
+    expose:
+      - "3579"
+    volumes:
+      - /home/docker/overseerr:/app/config
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
+  tautulli:
+    container_name: tautulli
+    image: tautulli/tautulli:latest
+    depends_on:
+      plex:
+        condition: service_started
+        required: false
+        restart: false
+    environment: 
+      - TZ=America/Chicago
+    expose: 
+      - "8181"
+    volumes:
+      - /home/docker/tautulli:/config
+      - /mnt/union/Backup/Tautulli:/config/backups
+      - "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
+    networks: 
+      - internal-containers
+    restart: unless-stopped

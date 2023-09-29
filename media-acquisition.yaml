@@ -1,0 +1,109 @@
+services:
+  rutorrent:
+    container_name: rutorrent
+    image: horjulf/rutorrent-autodl:latest
+    depends_on:
+      nginx:
+        condition: service_healthy
+        restart: false
+    ports:
+      - "5000:5000"
+      - "51413:51413"
+      - "6881:6881/udp"
+    expose:
+      - "8080"
+    volumes:
+      - /home/docker/ruTorrent:/config
+      - /data1/kingofzeal/torrentData:/downloads
+      - /home/scripts:/scripts
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
+    depends_on:
+      nginx:
+        condition: service_healthy
+        restart: false
+    environment:
+      - TZ=America/Chicago
+      - AUTO_UPDATE=true
+      - PUID=1000
+      - PGID=1000
+    expose:
+      - "9696"
+    volumes:
+      - /home/docker/prowlarr:/config
+      - /mnt/union/Backup/Prowlarr:/config/Backups
+    networks: 
+      - internal-containers
+    restart: unless-stopped
+
+  radarr:
+    container_name: radarr
+    image: ghcr.io/linuxserver/radarr
+    depends_on:
+      rutorrent:
+        condition: service_started
+        restart: false
+      prowlarr:
+        condition: service_started
+        required: false
+        restart: false
+    environment:
+      - TZ=America/Chicago
+    expose:
+      - "7878"
+    volumes:
+      - /home/docker/Radarr:/config
+      - /mnt/union/Backup/Radarr:/config/Backups
+      - rclone_Movies:/mnt/union/Movies
+      - rclone_Recycle:/mnt/union/Recycle
+      - rclone_Temp:/mnt/union/Temp
+      - /home/scripts:/scripts
+      - /data1/kingofzeal/torrentData:/downloads
+    healthcheck:
+      test: ls /mnt/union/Movies || exit 1
+      interval: 1m
+      timeout: 15s
+      retries: 3
+      start_period: 15s
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
+  sonarr:
+    container_name: sonarr
+    image: ghcr.io/linuxserver/sonarr
+    depends_on:
+      rutorrent:
+        condition: service_started
+        restart: false
+      prowlarr:
+        condition: service_started
+        required: false
+        restart: false
+    environment:
+      - TZ=America/Chicago
+    expose:
+      - "8989"
+    volumes:
+      - /home/docker/Sonarr:/config
+      - /home/scripts:/scripts
+      - /data1/kingofzeal/torrentData:/downloads
+      - /mnt/union/Backup/Sonarr:/config/Backups
+      - rclone_Anime:/mnt/union/Anime
+      - rclone_TV:/mnt/union/TV
+      - rclone_Recycle:/mnt/union/Recycle
+      - rclone_Temp:/mnt/union/Temp
+    healthcheck:
+      test: ls /mnt/union/TV || exit 1
+      interval: 1m
+      timeout: 15s
+      retries: 3
+      start_period: 15s
+    networks: 
+      - internal-containers
+    restart: unless-stopped

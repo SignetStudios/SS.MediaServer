@@ -1,0 +1,49 @@
+services:
+  heimdall:
+    container_name: heimdall
+    image: lscr.io/linuxserver/heimdall:latest
+    depends_on:
+      nginx:
+        condition: service_healthy
+        restart: false
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes: 
+      - /home/docker/heimdall:/config
+    expose:
+      - "80"
+    restart: unless-stopped
+    networks:
+      - internal-containers
+
+  netdata:
+    container_name: netdata
+    image: netdata/netdata:latest
+    depends_on:
+      nginx:
+        condition: service_healthy
+        restart: false
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /home/docker/netdata:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    networks:
+      - internal-containers
+
+volumes:
+  netdatalib:
+  netdatacache:
