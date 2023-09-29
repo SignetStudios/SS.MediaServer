@@ -1,0 +1,10 @@
+docker network connect bridge sonarr
+docker network connect bridge radarr
+docker network connect bridge nginx
+docker network connect bridge rutorrent
+docker network connect bridge netdata
+docker network connect bridge prowlarr
+docker network connect bridge plex
+docker network connect bridge heimdall
+docker network connect bridge overseerr
+docker network connect bridge tautulli
