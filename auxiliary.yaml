@@ -11,7 +11,7 @@ services:
       - PGID=1000
       - TZ=America/Chicago
     volumes: 
-      - /home/docker/heimdall:/config
+      - ${CONFIG_ROOT:?}/heimdall:/config
     expose:
       - "80"
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - /home/docker/netdata:/etc/netdata
+      - ${CONFIG_ROOT:?}/netdata:/etc/netdata
       - netdatalib:/var/lib/netdata
       - netdatacache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro

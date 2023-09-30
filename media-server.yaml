@@ -11,10 +11,10 @@ services:
     volumes:
       - /var/lib/plexmediaserver:/config
       - /etc/letsencrypt/live/plex.ssmedia.me:/etc/letsencrypt/live/plex.ssmedia.me
-      - rclone:/mnt/union
+      - rclone:${MEDIA_ROOT:?}
       - /data1/plex:/dev/shm
     healthcheck:
-      test: ls /mnt/union || exit 1
+      test: ls ${MEDIA_ROOT:?} || exit 1
       interval: 1m
       timeout: 15s
       retries: 3
@@ -42,7 +42,7 @@ services:
     expose:
       - "3579"
     volumes:
-      - /home/docker/overseerr:/app/config
+      - ${CONFIG_ROOT:?}/overseerr:/app/config
     networks:
       - internal-containers
     restart: unless-stopped
@@ -60,8 +60,8 @@ services:
     expose: 
       - "8181"
     volumes:
-      - /home/docker/tautulli:/config
-      - /mnt/union/Backup/Tautulli:/config/backups
+      - ${CONFIG_ROOT:?}/tautulli:/config
+      - ${BACKUP_ROOT:?}/Tautulli:/config/backups
       - "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
     networks: 
       - internal-containers

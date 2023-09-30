@@ -13,7 +13,7 @@ services:
     expose:
       - "8080"
     volumes:
-      - /home/docker/ruTorrent:/config
+      - ${CONFIG_ROOT:?}/ruTorrent:/config
       - /data1/kingofzeal/torrentData:/downloads
       - /home/scripts:/scripts
     networks:
@@ -35,8 +35,8 @@ services:
     expose:
       - "9696"
     volumes:
-      - /home/docker/prowlarr:/config
-      - /mnt/union/Backup/Prowlarr:/config/Backups
+      - ${CONFIG_ROOT:?}/prowlarr:/config
+      - ${BACKUP_ROOT:?}/Prowlarr:/config/Backups
     networks: 
       - internal-containers
     restart: unless-stopped
@@ -57,15 +57,15 @@ services:
     expose:
       - "7878"
     volumes:
-      - /home/docker/Radarr:/config
-      - /mnt/union/Backup/Radarr:/config/Backups
-      - rclone_Movies:/mnt/union/Movies
-      - rclone_Recycle:/mnt/union/Recycle
-      - rclone_Temp:/mnt/union/Temp
+      - ${CONFIG_ROOT:?}/Radarr:/config
+      - ${BACKUP_ROOT:?}/Radarr:/config/Backups
+      - rclone_Movies:${MEDIA_ROOT:?}/Movies
+      - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
+      - rclone_Temp:${MEDIA_ROOT:?}/Temp
       - /home/scripts:/scripts
       - /data1/kingofzeal/torrentData:/downloads
     healthcheck:
-      test: ls /mnt/union/Movies || exit 1
+      test: ls ${MEDIA_ROOT:?}/Movies || exit 1
       interval: 1m
       timeout: 15s
       retries: 3
@@ -90,16 +90,16 @@ services:
     expose:
       - "8989"
     volumes:
-      - /home/docker/Sonarr:/config
+      - ${CONFIG_ROOT:?}/Sonarr:/config
       - /home/scripts:/scripts
       - /data1/kingofzeal/torrentData:/downloads
-      - /mnt/union/Backup/Sonarr:/config/Backups
-      - rclone_Anime:/mnt/union/Anime
-      - rclone_TV:/mnt/union/TV
-      - rclone_Recycle:/mnt/union/Recycle
-      - rclone_Temp:/mnt/union/Temp
+      - ${BACKUP_ROOT:?}/Sonarr:/config/Backups
+      - rclone_Anime:${MEDIA_ROOT:?}/Anime
+      - rclone_TV:${MEDIA_ROOT:?}/TV
+      - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
+      - rclone_Temp:${MEDIA_ROOT:?}/Temp
     healthcheck:
-      test: ls /mnt/union/TV || exit 1
+      test: ls ${MEDIA_ROOT:?}/TV || exit 1
       interval: 1m
       timeout: 15s
       retries: 3
