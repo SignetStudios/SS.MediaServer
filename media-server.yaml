@@ -9,7 +9,7 @@ services:
     ports:
       - "32400:32400"
     volumes:
-      - /var/lib/plexmediaserver:/config
+      - ${CONFIG_ROOT:?}/Plex:/config
       - /etc/letsencrypt/live/plex.ssmedia.me:/etc/letsencrypt/live/plex.ssmedia.me
       - rclone:${MEDIA_ROOT:?}
       - /data1/plex:/dev/shm
@@ -62,7 +62,7 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/tautulli:/config
       - ${BACKUP_ROOT:?}/Tautulli:/config/backups
-      - "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
+      - "${CONFIG_ROOT:?}/Plex/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
     networks: 
       - internal-containers
     restart: unless-stopped
