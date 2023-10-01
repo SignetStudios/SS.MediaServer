@@ -14,8 +14,8 @@ services:
       - "8080"
     volumes:
       - ${CONFIG_ROOT:?}/ruTorrent:/config
-      - /data1/kingofzeal/torrentData:/downloads
-      - /home/scripts:/scripts
+      - ${TORRENT_DATA:?}:/downloads
+      - ${SCRIPTS_ROOT:?}:/scripts
     networks:
       - internal-containers
     restart: unless-stopped
@@ -62,8 +62,8 @@ services:
       - rclone_Movies:${MEDIA_ROOT:?}/Movies
       - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
       - rclone_Temp:${MEDIA_ROOT:?}/Temp
-      - /home/scripts:/scripts
-      - /data1/kingofzeal/torrentData:/downloads
+      - ${SCRIPTS_ROOT:?}:/scripts
+      - ${TORRENT_DATA:?}:/downloads
     healthcheck:
       test: ls ${MEDIA_ROOT:?}/Movies || exit 1
       interval: 1m
@@ -91,8 +91,8 @@ services:
       - "8989"
     volumes:
       - ${CONFIG_ROOT:?}/Sonarr:/config
-      - /home/scripts:/scripts
-      - /data1/kingofzeal/torrentData:/downloads
+      - ${SCRIPTS_ROOT:?}:/scripts
+      - ${TORRENT_DATA:?}:/downloads
       - ${BACKUP_ROOT:?}/Sonarr:/config/Backups
       - rclone_Anime:${MEDIA_ROOT:?}/Anime
       - rclone_TV:${MEDIA_ROOT:?}/TV
