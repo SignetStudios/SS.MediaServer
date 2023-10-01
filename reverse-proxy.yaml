@@ -22,7 +22,7 @@ services:
       environment:
         - TZ=America/Chicago
         - URL=ssmedia.me
-        - SUBDOMAINS=plex,radarr,sonarr,portainer,jackett,rutorrent,netdata,ombi,tautulli,requests,grafana,tdarr,prowlarr,authelia,heimdall,rutorrent2
+        - SUBDOMAINS=wildcard
         - VALIDATION=dns
         - DNSPLUGIN=cloudflare
         - PROPAGATION=30
