@@ -59,9 +59,9 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/Radarr:/config
       - ${BACKUP_ROOT:?}/Radarr:/config/Backups
-      - rclone_Movies:${MEDIA_ROOT:?}/Movies
-      - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
-      - rclone_Temp:${MEDIA_ROOT:?}/Temp
+      - ${MEDIA_ROOT:?}/Movies:${MEDIA_ROOT:?}/Movies
+      - ${MEDIA_ROOT:?}/Recycle:${MEDIA_ROOT:?}/Recycle
+      - ${MEDIA_ROOT:?}/Temp:${MEDIA_ROOT:?}/Temp
       - ${SCRIPTS_ROOT:?}:/scripts
       - ${TORRENT_DATA:?}:/downloads
     healthcheck:
@@ -94,10 +94,10 @@ services:
       - ${SCRIPTS_ROOT:?}:/scripts
       - ${TORRENT_DATA:?}:/downloads
       - ${BACKUP_ROOT:?}/Sonarr:/config/Backups
-      - rclone_Anime:${MEDIA_ROOT:?}/Anime
-      - rclone_TV:${MEDIA_ROOT:?}/TV
-      - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
-      - rclone_Temp:${MEDIA_ROOT:?}/Temp
+      - ${MEDIA_ROOT:?}/Anime:${MEDIA_ROOT:?}/Anime
+      - ${MEDIA_ROOT:?}/TV:${MEDIA_ROOT:?}/TV
+      - ${MEDIA_ROOT:?}/Recycle:${MEDIA_ROOT:?}/Recycle
+      - ${MEDIA_ROOT:?}/Temp:${MEDIA_ROOT:?}/Temp
     healthcheck:
       test: ls ${MEDIA_ROOT:?}/TV || exit 1
       interval: 1m

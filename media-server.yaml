@@ -11,7 +11,7 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/Plex:/config
       - /etc/letsencrypt/live/plex.ssmedia.me:/etc/letsencrypt/live/plex.ssmedia.me
-      - rclone:${MEDIA_ROOT:?}
+      - ${MEDIA_ROOT:?}/:${MEDIA_ROOT:?}
       - /data1/plex:/dev/shm
     healthcheck:
       test: ls ${MEDIA_ROOT:?} || exit 1
