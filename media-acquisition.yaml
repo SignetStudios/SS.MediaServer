@@ -11,7 +11,7 @@ services:
       - "51413:51413"
       - "6881:6881/udp"
     expose:
-      - "8080"
+      - "80"
     volumes:
       - ${CONFIG_ROOT:?}/ruTorrent:/config
       - ${TORRENT_DATA:?}:/downloads
