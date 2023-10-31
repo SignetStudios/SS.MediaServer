@@ -21,6 +21,8 @@ services:
       start_period: 15s
     networks: 
       - internal-containers
+    devices:
+      - /dev/dri:/dev/dri
     restart: unless-stopped
 
   overseerr:
