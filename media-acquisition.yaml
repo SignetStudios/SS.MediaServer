@@ -20,23 +20,6 @@ services:
       - internal-containers
     restart: unless-stopped
 
-  deluge:
-    container_name: deluge
-    image: lscr.io/linuxserver/deluge:latest
-    environment:
-      - TZ=America/Chicago
-    volumes:
-      - ${CONFIG_ROOT:?}/deluge:/config
-      - ${TORRENT_DATA:?}:/downloads
-    expose: 
-      - "8112"
-    ports:
-      - "6882:6881"
-      - "6882:6881/udp"
-    networks:
-      - internal-containers
-    restart: unless-stopped
-
   autobrr:
     container_name: autobrr
     image: ghcr.io/autobrr/autobrr:latest
