@@ -9,4 +9,3 @@ docker network connect bridge heimdall 2> /dev/null
 docker network connect bridge overseerr 2> /dev/null
 docker network connect bridge tautulli 2> /dev/null
 docker network connect bridge autobrr 2> /dev/null
-docker network connect bridge deluge 2> /dev/null
