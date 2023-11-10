@@ -18,6 +18,21 @@ services:
     networks:
       - internal-containers
 
+  cross-seed:
+    container_name: cross-seed
+    image: crossseed/cross-seed
+    volumes:
+      - ${CONFIG_ROOT:?}/cross-seed:/config
+      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/rtorrent_sess/:/torrents:ro
+      - ${TORRENT_DATA:?}/watched:/cross-seeds
+      - ${TORRENT_DATA:?}:/data
+    expose:
+      - "2468"
+    command: daemon
+    restart: unless-stopped
+    networks:
+      - internal-containers
+
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
