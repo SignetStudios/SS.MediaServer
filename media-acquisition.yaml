@@ -20,6 +20,19 @@ services:
       - internal-containers
     restart: unless-stopped
 
+  autobrr:
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    expose:
+      - "7474"
+    volumes:
+      - ${CONFIG_ROOT:?}/autobrr:/config
+    environment:
+      - TZ=America/Chicago
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
   prowlarr:
     container_name: prowlarr
     image: lscr.io/linuxserver/prowlarr:latest
