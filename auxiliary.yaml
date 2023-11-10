@@ -24,7 +24,7 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/cross-seed:/config
       - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/rtorrent_sess/:/torrents:ro
-      - ${TORRENT_DATA:?}/watched:/cross-seeds
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
       - ${TORRENT_DATA:?}:/data
     expose:
       - "2468"

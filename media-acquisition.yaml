@@ -15,6 +15,7 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/ruTorrent:/config
       - ${TORRENT_DATA:?}:/downloads
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
       - ${SCRIPTS_ROOT:?}:/scripts
     networks:
       - internal-containers
