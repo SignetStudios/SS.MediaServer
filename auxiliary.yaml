@@ -40,6 +40,8 @@ services:
       - "7441"
     volumes:
       - ${CONFIG_ROOT:?}/omegabrr:/config
+    networks:
+      - internal-containers
 
   netdata:
     container_name: netdata
