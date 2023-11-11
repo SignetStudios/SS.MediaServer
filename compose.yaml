@@ -43,6 +43,12 @@ volumes:
       <<: *rclone-opts
       remote: "union:Recycle"
 
+  rclone_eBooks:
+    <<: *rclone
+    driver_opts:
+      <<: *rclone-opts
+      remote: "union:eBooks"
+
 networks:
   internal-containers:
     driver: bridge

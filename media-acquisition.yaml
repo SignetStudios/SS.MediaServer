@@ -121,3 +121,28 @@ services:
     networks: 
       - internal-containers
     restart: unless-stopped
+
+  readarr:
+    container_name: readarr
+    image: lscr.io/linuxserver/readarr:nightly
+    environment: 
+      - TZ=America/Chicago
+    expose:
+      - "8787"
+    volumes:
+      - ${CONFIG_ROOT:?}/Readarr:/config
+      - ${SCRIPTS_ROOT:?}:/scripts
+      - ${TORRENT_DATA:?}:/downloads
+      - ${BACKUP_ROOT:?}/Readarr:/config/Backups
+      - rclone_Books:${MEDIA_ROOT:?}/eBooks
+      - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
+      - rclone_Temp:${MEDIA_ROOT:?}/Temp
+    healthcheck:
+      test: ls ${MEDIA_ROOT:?}/eBooks || exit 1
+      interval: 1m
+      timeout: 15s
+      retries: 3
+      start_period: 15s
+    networks:
+      - internal-containers
+    restart: unless-stopped
