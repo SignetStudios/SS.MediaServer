@@ -33,6 +33,14 @@ services:
     networks:
       - internal-containers
 
+  omegabrr:
+    container_name: omegabrr
+    image: ghcr.io/autobrr/omegabrr:latest
+    expose:
+      - "7441"
+    volumes:
+      - ${CONFIG_ROOT:?}/omegabrr:/config
+
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
