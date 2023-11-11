@@ -134,9 +134,9 @@ services:
       - ${SCRIPTS_ROOT:?}:/scripts
       - ${TORRENT_DATA:?}:/downloads
       - ${BACKUP_ROOT:?}/Readarr:/config/Backups
-      - rclone_Books:${MEDIA_ROOT:?}/eBooks
-      - rclone_Recycle:${MEDIA_ROOT:?}/Recycle
-      - rclone_Temp:${MEDIA_ROOT:?}/Temp
+      - ${MEDIA_ROOT:?}/eBooks:${MEDIA_ROOT:?}/eBooks
+      - ${MEDIA_ROOT:?}/Recycle:${MEDIA_ROOT:?}/Recycle
+      - ${MEDIA_ROOT:?}/Temp:${MEDIA_ROOT:?}/Temp
     healthcheck:
       test: ls ${MEDIA_ROOT:?}/eBooks || exit 1
       interval: 1m
