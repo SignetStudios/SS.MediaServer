@@ -2,4 +2,7 @@ if ! [[ -x ./scripts/bridge_connect.sh ]]
 then
     chmod +x ./scripts/bridge_connect.sh
 fi
-docker compose up -d && ./scripts/bridge_connect.sh
+
+git pull
+
+docker compose up -d --remove-orphans && ./scripts/bridge_connect.sh
