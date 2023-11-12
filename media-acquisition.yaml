@@ -28,8 +28,9 @@ services:
       - TZ=America/Chicago
     volumes:
       - ${CONFIG_ROOT:?}/qbittorrent:/config
+      - ${CONFIG_ROOT:?}/qbittorrent_ui:/qbtui
       - ${TORRENT_DATA:?}:/downloads
-      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
     expose: 
       - "8080"
     ports:
