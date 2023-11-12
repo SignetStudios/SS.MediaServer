@@ -34,8 +34,8 @@ services:
     expose: 
       - "8080"
     ports:
-      - "6882:6881"
-      - "6882:6881/udp"
+      - "51414:51414"
+      - "51414:51414/udp"
     networks:
       - internal-containers
     restart: unless-stopped
