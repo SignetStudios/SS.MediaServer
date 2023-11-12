@@ -43,6 +43,16 @@ services:
     networks:
       - internal-containers
 
+  qbit_manage:
+    container_name: qbit_manage
+    image: bobokun/qbit_manage
+    environment:
+      - QBT_SCHEDULE=10
+    volumes:
+      - ${CONFIG_ROOT:?}/qbitmanage:/config
+    networks:
+      - internal-containers
+
   netdata:
     container_name: netdata
     image: netdata/netdata:latest

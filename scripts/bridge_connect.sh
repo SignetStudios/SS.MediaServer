@@ -11,3 +11,4 @@ docker network connect bridge tautulli 2> /dev/null
 docker network connect bridge autobrr 2> /dev/null
 docker network connect bridge cross-seed 2> /dev/null
 docker network connect bridge qbittorrent 2> /dev/null
+docker network connect bridge qbit_manage 2> /dev/null
