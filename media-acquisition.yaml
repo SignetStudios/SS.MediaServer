@@ -26,9 +26,9 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     environment:
       - TZ=America/Chicago
+      - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
       - ${CONFIG_ROOT:?}/qbittorrent:/config
-      - ${CONFIG_ROOT:?}/qbittorrent_ui:/qbtui
       - ${TORRENT_DATA:?}:/downloads
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
     expose: 
