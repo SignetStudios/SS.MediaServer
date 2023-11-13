@@ -52,7 +52,7 @@ services:
     image: bobokun/qbit_manage
     environment:
       - TZ=America/Chicago
-      - QBT_SCHEDULE=10
+      - QBT_SCHEDULE=1
     volumes:
       - ${CONFIG_ROOT:?}/qbitmanage:/config
     networks:
