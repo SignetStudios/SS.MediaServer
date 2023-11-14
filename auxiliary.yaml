@@ -55,6 +55,7 @@ services:
       - QBT_SCHEDULE=1
     volumes:
       - ${CONFIG_ROOT:?}/qbitmanage:/config
+      - ${TORRENT_DATA:?}:/downloads
     networks:
       - internal-containers
 
