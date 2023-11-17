@@ -2,10 +2,10 @@ services:
   heimdall:
     container_name: heimdall
     image: lscr.io/linuxserver/heimdall:latest
-    depends_on:
-      nginx:
-        condition: service_healthy
-        restart: false
+#    depends_on:
+#      nginx:
+#        condition: service_healthy
+#        restart: false
     environment:
       - PUID=1000
       - PGID=1000
@@ -62,10 +62,10 @@ services:
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
-    depends_on:
-      nginx:
-        condition: service_healthy
-        restart: false
+#    depends_on:
+#      nginx:
+#        condition: service_healthy
+#        restart: false
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
