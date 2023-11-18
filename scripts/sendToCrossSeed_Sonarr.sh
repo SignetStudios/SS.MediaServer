@@ -1,12 +1,12 @@
 #!/bin/bash
 
-torrentHash="${sonarr_download_id}"
-
-if [[ "${sonarr_eventtype}" == "Test" ]]; then
-  torrentHash="Test Download Id"
+release_hash=$sonarr_download_id
+if [[ ${sonarr_eventtype^^} == "TEST" ]]; then
+	release_hash="Test TV Release"
 fi
 
-curl -XPOST http://cross-seed:2468/api/webhook \
+curl -XPOST ${CROSS_SEED_HOST}/api/webhook \
   -H 'Content-Type: application/json' \
-  --data "{'infoHash': '${torrentHash}'}"
+  --data '{"infoHash":"'"${release_hash}"'"}'
 
+exit 0
