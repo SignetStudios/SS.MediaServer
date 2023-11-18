@@ -87,6 +87,8 @@ services:
 #        restart: false
     environment:
       - TZ=America/Chicago
+      - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
+      - CROSS_SEED_API=${CROSS_SEED_API:?}
     expose:
       - "7878"
     volumes:
@@ -120,6 +122,8 @@ services:
 #        restart: false
     environment:
       - TZ=America/Chicago
+      - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
+      - CROSS_SEED_API=${CROSS_SEED_API:?}
     expose:
       - "8989"
     volumes:
