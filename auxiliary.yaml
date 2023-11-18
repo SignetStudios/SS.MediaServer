@@ -2,10 +2,10 @@ services:
   heimdall:
     container_name: heimdall
     image: lscr.io/linuxserver/heimdall:latest
-    depends_on:
-      nginx:
-        condition: service_healthy
-        restart: false
+#    depends_on:
+#      nginx:
+#        condition: service_healthy
+#        restart: false
     environment:
       - PUID=1000
       - PGID=1000
@@ -52,19 +52,20 @@ services:
     image: bobokun/qbit_manage
     environment:
       - TZ=America/Chicago
-      - QBT_SCHEDULE=10
+      - QBT_SCHEDULE=1
     volumes:
       - ${CONFIG_ROOT:?}/qbitmanage:/config
+      - ${TORRENT_DATA:?}:/downloads
     networks:
       - internal-containers
 
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
-    depends_on:
-      nginx:
-        condition: service_healthy
-        restart: false
+#    depends_on:
+#      nginx:
+#        condition: service_healthy
+#        restart: false
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN

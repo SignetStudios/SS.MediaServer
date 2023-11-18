@@ -46,10 +46,6 @@ volumes:
 networks:
   internal-containers:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.15.0.0/16
-          gateway: 172.15.0.1
 
   hostbridge:
     external: true

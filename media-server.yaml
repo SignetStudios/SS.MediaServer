@@ -28,17 +28,17 @@ services:
   overseerr:
     container_name: overseerr
     image: sctx/overseerr:latest
-    depends_on:
-      sonarr:
-        condition: service_healthy
-        restart: false
-      radarr:
-        condition: service_healthy
-        restart: false
-      plex:
-        condition: service_started
-        required: false
-        restart: false
+#    depends_on:
+#      sonarr:
+#        condition: service_healthy
+#        restart: false
+#      radarr:
+#        condition: service_healthy
+#        restart: false
+#      plex:
+#        condition: service_started
+#        required: false
+#        restart: false
     environment:
       - TZ=America/Chicago
     expose:
@@ -52,11 +52,11 @@ services:
   tautulli:
     container_name: tautulli
     image: tautulli/tautulli:latest
-    depends_on:
-      plex:
-        condition: service_started
-        required: false
-        restart: false
+#    depends_on:
+#      plex:
+#        condition: service_started
+#        required: false
+#        restart: false
     environment: 
       - TZ=America/Chicago
     expose: 
