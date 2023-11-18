@@ -15,10 +15,6 @@ services:
     nginx:
       container_name: nginx
       image: linuxserver/swag:latest
-#      depends_on:
-#        authelia:
-#          condition: service_started
-#          restart: false
       environment:
         - TZ=America/Chicago
         - URL=ssmedia.me
