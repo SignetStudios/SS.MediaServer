@@ -27,6 +27,8 @@ services:
     container_name: overseerr
     image: sctx/overseerr:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
     expose:
       - "3579"
@@ -40,6 +42,8 @@ services:
     container_name: tautulli
     image: tautulli/tautulli:latest
     environment: 
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
     expose: 
       - "8181"

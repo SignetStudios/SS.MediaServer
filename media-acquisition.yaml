@@ -3,6 +3,8 @@ services:
     container_name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
@@ -26,6 +28,8 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/autobrr:/config
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
     networks:
       - internal-containers
@@ -35,6 +39,8 @@ services:
     container_name: prowlarr
     image: lscr.io/linuxserver/prowlarr:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - AUTO_UPDATE=true
       - PUID=1000
@@ -52,6 +58,8 @@ services:
     container_name: radarr
     image: ghcr.io/linuxserver/radarr
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
       - CROSS_SEED_API=${CROSS_SEED_API:?}
@@ -79,6 +87,8 @@ services:
     container_name: sonarr
     image: ghcr.io/linuxserver/sonarr
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
       - CROSS_SEED_API=${CROSS_SEED_API:?}
