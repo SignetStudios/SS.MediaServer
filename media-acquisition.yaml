@@ -43,8 +43,6 @@ services:
       - PGID=1000
       - TZ=America/Chicago
       - AUTO_UPDATE=true
-      - PUID=1000
-      - PGID=1000
     expose:
       - "9696"
     volumes:
