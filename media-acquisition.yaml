@@ -2,10 +2,6 @@ services:
   rutorrent:
     container_name: rutorrent
     image: horjulf/rutorrent-autodl:latest
-#    depends_on:
-#      nginx:
-#        condition: service_healthy
-#        restart: false
     ports:
       - "5000:5000"
       - "51413:51413"
@@ -56,10 +52,6 @@ services:
   prowlarr:
     container_name: prowlarr
     image: lscr.io/linuxserver/prowlarr:latest
-#    depends_on:
-#      nginx:
-#        condition: service_healthy
-#        restart: false
     environment:
       - TZ=America/Chicago
       - AUTO_UPDATE=true
@@ -77,14 +69,6 @@ services:
   radarr:
     container_name: radarr
     image: ghcr.io/linuxserver/radarr
-#    depends_on:
-#      rutorrent:
-#        condition: service_started
-#        restart: false
-#      prowlarr:
-#        condition: service_started
-#        required: false
-#        restart: false
     environment:
       - TZ=America/Chicago
       - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
@@ -112,14 +96,6 @@ services:
   sonarr:
     container_name: sonarr
     image: ghcr.io/linuxserver/sonarr
-#    depends_on:
-#      rutorrent:
-#        condition: service_started
-#        restart: false
-#      prowlarr:
-#        condition: service_started
-#        required: false
-#        restart: false
     environment:
       - TZ=America/Chicago
       - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}

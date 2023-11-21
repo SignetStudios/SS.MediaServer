@@ -2,10 +2,6 @@ services:
   heimdall:
     container_name: heimdall
     image: lscr.io/linuxserver/heimdall:latest
-#    depends_on:
-#      nginx:
-#        condition: service_healthy
-#        restart: false
     environment:
       - PUID=1000
       - PGID=1000
@@ -59,13 +55,20 @@ services:
     networks:
       - internal-containers
 
+  unpackerr:
+    container_name: unpackerr
+    image: ghcr.io/hotio/unpackerr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes: 
+      - ${CONFIG_ROOT:?}/unpackerr:/config
+      - ${TORRENT_DATA:?}:/downloads
+
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
-#    depends_on:
-#      nginx:
-#        condition: service_healthy
-#        restart: false
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
