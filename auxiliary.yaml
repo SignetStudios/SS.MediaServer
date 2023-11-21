@@ -65,6 +65,8 @@ services:
     volumes: 
       - ${CONFIG_ROOT:?}/unpackerr:/config
       - ${TORRENT_DATA:?}:/downloads
+    networks:
+      - internal-containers
 
   netdata:
     container_name: netdata
