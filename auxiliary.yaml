@@ -55,6 +55,17 @@ services:
     networks:
       - internal-containers
 
+  unpackerr:
+    container_name: unpackerr
+    image: ghcr.io/hotio/unpackerr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes: 
+      - ${CONFIG_ROOT:?}/unpackerr:/config
+      - ${TORRENT_DATA:?}:/downloads
+
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
