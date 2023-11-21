@@ -1,26 +1,10 @@
 services:
-  rutorrent:
-    container_name: rutorrent
-    image: horjulf/rutorrent-autodl:latest
-    ports:
-      - "5000:5000"
-      - "51413:51413"
-      - "6881:6881/udp"
-    expose:
-      - "80"
-    volumes:
-      - ${CONFIG_ROOT:?}/ruTorrent:/config
-      - ${TORRENT_DATA:?}:/downloads
-      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
-      - ${SCRIPTS_ROOT:?}:/scripts
-    networks:
-      - internal-containers
-    restart: unless-stopped
-
   qbittorrent:
     container_name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
@@ -44,6 +28,8 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/autobrr:/config
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
     networks:
       - internal-containers
@@ -53,6 +39,8 @@ services:
     container_name: prowlarr
     image: lscr.io/linuxserver/prowlarr:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - AUTO_UPDATE=true
       - PUID=1000
@@ -70,6 +58,8 @@ services:
     container_name: radarr
     image: ghcr.io/linuxserver/radarr
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
       - CROSS_SEED_API=${CROSS_SEED_API:?}
@@ -97,6 +87,8 @@ services:
     container_name: sonarr
     image: ghcr.io/linuxserver/sonarr
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - CROSS_SEED_HOST=${CROSS_SEED_HOST:?}
       - CROSS_SEED_API=${CROSS_SEED_API:?}

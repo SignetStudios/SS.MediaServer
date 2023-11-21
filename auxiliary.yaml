@@ -18,6 +18,8 @@ services:
     container_name: cross-seed
     image: crossseed/cross-seed
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
     volumes:
       - ${CONFIG_ROOT:?}/cross-seed:/config
@@ -35,6 +37,8 @@ services:
     container_name: omegabrr
     image: ghcr.io/autobrr/omegabrr:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
     expose:
       - "7441"
@@ -47,6 +51,8 @@ services:
     container_name: qbit_manage
     image: bobokun/qbit_manage
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - QBT_SCHEDULE=1
     volumes:
@@ -71,6 +77,10 @@ services:
   netdata:
     container_name: netdata
     image: netdata/netdata:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
