@@ -1,22 +1,4 @@
 services:
-  rutorrent:
-    container_name: rutorrent
-    image: horjulf/rutorrent-autodl:latest
-    ports:
-      - "5000:5000"
-      - "51413:51413"
-      - "6881:6881/udp"
-    expose:
-      - "80"
-    volumes:
-      - ${CONFIG_ROOT:?}/ruTorrent:/config
-      - ${TORRENT_DATA:?}:/downloads
-      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
-      - ${SCRIPTS_ROOT:?}:/scripts
-    networks:
-      - internal-containers
-    restart: unless-stopped
-
   qbittorrent:
     container_name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
