@@ -55,6 +55,7 @@ services:
       - PGID=1000
       - TZ=America/Chicago
       - QBT_SCHEDULE=1
+      - QBT_SKIP_QB_VERSION_CHECK=True
     volumes:
       - ${CONFIG_ROOT:?}/qbitmanage:/config
       - ${TORRENT_DATA:?}:/downloads
