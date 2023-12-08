@@ -116,7 +116,7 @@ services:
       - LOG_LEVEL=info
     networks:
       internal-containers:
-        ipv4_address: 172.18.0.200
+        ipv4_address: 172.18.2.1
     restart: unless-stopped
 
 volumes:
