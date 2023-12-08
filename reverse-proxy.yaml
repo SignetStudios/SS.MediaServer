@@ -29,7 +29,8 @@ services:
       volumes:
         - ${CONFIG_ROOT:?}/nginx:/config
       networks:
-        - internal-containers
+      internal-containers:
+        ipv4_address: 172.18.1.1
       cap_add:
         - NET_ADMIN
       healthcheck:
