@@ -115,7 +115,8 @@ services:
       - WG_COLOR_MODE=always
       - LOG_LEVEL=info
     networks:
-      - internal_containers
+      internal-containers:
+        ipv4_address: 172.18.0.200
     restart: unless-stopped
 
 volumes:
