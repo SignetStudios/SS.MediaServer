@@ -5,12 +5,18 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - VPN_SERVICE_PROVIDER=windscribe
+      - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=openvpn
       - OPENVPN_USER=${WINDSCRIBE_USERNAME:?}
       - OPENVPN_PASSWORD=${WINDSCRIBE_PASSWORD:?}
-      - SERVER_REGIONS=Switzerland
-      - FIREWALL_VPN_INPUT_PORTS=44499
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/${WINDSCRIBE_OVPN_FILE:?}
+      - VPN_ENDPOINT_IP=${WINDSCRIBE_ADDRESS:?}
+      - VPN_ENDPOINT_PORT=${WINDSCRIBE_PORT:?}
+      - FIREWALL_VPN_INPUT_PORTS=${WINDSCRIBE_FWD_PORT:?}
+    volumes:
+      - ${CONFIG_ROOT:?}/gluetun:/gluetun
+    networks:
+      - internal-containers
 
   qbittorrent:
     container_name: qbittorrent
