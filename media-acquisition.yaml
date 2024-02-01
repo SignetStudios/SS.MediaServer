@@ -10,6 +10,7 @@ services:
       - OPENVPN_USER=${WINDSCRIBE_USERNAME:?}
       - OPENVPN_PASSWORD=${WINDSCRIBE_PASSWORD:?}
       - SERVER_REGIONS=Switzerland
+      - FIREWALL_VPN_INPUT_PORTS=44499
 
   qbittorrent:
     container_name: qbittorrent
