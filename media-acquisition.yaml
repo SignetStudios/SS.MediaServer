@@ -17,6 +17,7 @@ services:
       - ${CONFIG_ROOT:?}/gluetun:/gluetun
     networks:
       - internal-containers
+    restart: unless-stopped    
 
   qbittorrent:
     container_name: qbittorrent
