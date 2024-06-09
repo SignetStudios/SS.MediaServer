@@ -16,26 +16,6 @@ services:
 
   cross-seed:
     container_name: cross-seed
-    image: crossseed/cross-seed
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-    volumes:
-      - ${CONFIG_ROOT:?}/cross-seed:/config
-      # - ${CONFIG_ROOT:?}/qbittorrent/qBittorrent/BT_backup:/torrents:ro
-      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/torrents:ro
-      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
-      - ${TORRENT_DATA:?}:/downloads
-    expose:
-      - "2468"
-    command: daemon
-    restart: unless-stopped
-    networks:
-      - internal-containers
-
-  cross-seed6:
-    container_name: cross-seed6
     image: crossseed/cross-seed:master
     environment:
       - PUID=1000
@@ -43,7 +23,6 @@ services:
       - TZ=America/Chicago
     volumes:
       - ${CONFIG_ROOT:?}/cross-seed6:/config
-      # - ${CONFIG_ROOT:?}/qbittorrent/qBittorrent/BT_backup:/torrents:ro
       - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/torrents:ro
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
       - ${TORRENT_DATA:?}:/downloads
