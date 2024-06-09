@@ -52,7 +52,7 @@ services:
       - ${TORRENT_DATA:?}:/downloads
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
       - ${SCRIPTS_ROOT:?}:/scripts
-    networks_mode: service:gluetun
+    network_mode: service:gluetun
     restart: unless-stopped
 
   autobrr:
