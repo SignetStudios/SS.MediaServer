@@ -9,7 +9,15 @@ services:
       - VPN_TYPE=openvpn
       - OPENVPN_USER=${WINDSCRIBE_USERNAME:?}
       - OPENVPN_PASSWORD=${WINDSCRIBE_PASSWORD:?}
-      - SERVER_REGIONS=Switzerland
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/${WINDSCRIBE_OVPN_FILE:?}
+      - VPN_ENDPOINT_IP=${WINDSCRIBE_ADDRESS:?}
+      - VPN_ENDPOINT_PORT=${WINDSCRIBE_PORT:?}
+      - FIREWALL_VPN_INPUT_PORTS=${WINDSCRIBE_FWD_PORT:?}
+    volumes:
+      - ${CONFIG_ROOT:?}/gluetun:/gluetun
+    networks:
+      - internal-containers
+    restart: unless-stopped
 
   qbittorrent:
     container_name: qbittorrent
