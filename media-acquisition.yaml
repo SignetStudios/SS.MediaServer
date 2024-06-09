@@ -40,7 +40,10 @@ services:
 
   rutorrent:
     container_name: rutorrent
-    image: lscr.io/linuxserver/rutorrent
+    image: crazymax/rtorrent-rutorrent:latest
+    environment: 
+      - TZ=America/Chicago
+      
     # ports:
     #   - "5000:5000"
     #   - "51413:51413"
@@ -48,7 +51,7 @@ services:
     # expose:
     #   - "80"
     volumes:
-      - ${CONFIG_ROOT:?}/ruTorrent:/config
+      - ${CONFIG_ROOT:?}/ruTorrent:/data
       - ${TORRENT_DATA:?}:/downloads
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
       - ${SCRIPTS_ROOT:?}:/scripts
