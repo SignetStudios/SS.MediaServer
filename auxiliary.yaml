@@ -24,6 +24,7 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/cross-seed:/config
       - ${CONFIG_ROOT:?}/qbittorrent/qBittorrent/BT_backup:/torrents:ro
+      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/rtorrent/.session:ro
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
       - ${TORRENT_DATA:?}:/downloads
     expose:
@@ -58,21 +59,6 @@ services:
       - QBT_SKIP_QB_VERSION_CHECK=True
     volumes:
       - ${CONFIG_ROOT:?}/qbitmanage:/config
-      - ${TORRENT_DATA:?}:/downloads
-    networks:
-      - internal-containers
-
-  qbit_manage2:
-    container_name: qbit_manage2
-    image: bobokun/qbit_manage
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-      - QBT_SCHEDULE=1
-      - QBT_SKIP_QB_VERSION_CHECK=True
-    volumes:
-      - ${CONFIG_ROOT:?}/qbitmanage2:/config
       - ${TORRENT_DATA:?}:/downloads
     networks:
       - internal-containers
