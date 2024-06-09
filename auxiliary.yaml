@@ -23,8 +23,8 @@ services:
       - TZ=America/Chicago
     volumes:
       - ${CONFIG_ROOT:?}/cross-seed:/config
-      - ${CONFIG_ROOT:?}/qbittorrent/qBittorrent/BT_backup:/torrents:ro
-      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/rtorrent/.session:ro
+      # - ${CONFIG_ROOT:?}/qbittorrent/qBittorrent/BT_backup:/torrents:ro
+      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/torrents:ro
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
       - ${TORRENT_DATA:?}:/downloads
     expose:
