@@ -1,28 +1,4 @@
 services:
-  plex:
-    container_name: plex
-    image: ghcr.io/linuxserver/plex
-    environment:
-      - PUID=130
-      - PGID=135
-      - VERSION=latest
-    ports:
-      - "32400:32400"
-    volumes:
-      - ${CONFIG_ROOT:?}/Plex:/config
-      - /etc/letsencrypt/live/plex.ssmedia.me:/etc/letsencrypt/live/plex.ssmedia.me
-      - ${MEDIA_ROOT:?}/:${MEDIA_ROOT:?}
-      - /data1/plex:/dev/shm
-    healthcheck:
-      test: ls ${MEDIA_ROOT:?} || exit 1
-      interval: 1m
-      timeout: 15s
-      retries: 3
-      start_period: 15s
-    networks: 
-      - internal-containers
-    restart: unless-stopped
-
   overseerr:
     container_name: overseerr
     image: sctx/overseerr:latest
