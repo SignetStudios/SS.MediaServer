@@ -17,11 +17,15 @@ services:
       - ${CONFIG_ROOT:?}/gluetun:/gluetun
     networks:
       - internal-containers
-    restart: unless-stopped    
+    restart: unless-stopped
 
   qbittorrent:
     container_name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
+    # ports:
+    #   - 8080:8080
+    #   - 6881:6881
+    #   - 6881:6881/udp
     environment:
       - PUID=1000
       - PGID=1000
@@ -34,25 +38,21 @@ services:
     network_mode: service:gluetun
     restart: unless-stopped
 
-  qbittorrent_private:
-    container_name: qbittorrent_private
-    image: lscr.io/linuxserver/qbittorrent:latest
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-      - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
+  rutorrent:
+    container_name: rutorrent
+    image: lscr.io/linuxserver/rutorrent
+    # ports:
+    #   - "5000:5000"
+    #   - "51413:51413"
+    #   - "6881:6881/udp"
+    # expose:
+    #   - "80"
     volumes:
-      - ${CONFIG_ROOT:?}/qbittorrent_public:/config
+      - ${CONFIG_ROOT:?}/ruTorrent:/config
       - ${TORRENT_DATA:?}:/downloads
-      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds  
-    expose: 
-      - "8080"
-    ports:
-      - "51414:51414"
-      - "51414:51414/udp"
-    networks:
-      - internal-containers
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds      
+      - ${SCRIPTS_ROOT:?}:/scripts
+    networks_mode: service:gluetun
     restart: unless-stopped
 
   autobrr:
