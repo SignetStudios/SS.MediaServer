@@ -46,22 +46,7 @@ services:
       - ${CONFIG_ROOT:?}/omegabrr:/config
     networks:
       - internal-containers
-
-  qbit_manage:
-    container_name: qbit_manage
-    image: bobokun/qbit_manage
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-      - QBT_SCHEDULE=1
-      - QBT_SKIP_QB_VERSION_CHECK=True
-    volumes:
-      - ${CONFIG_ROOT:?}/qbitmanage:/config
-      - ${TORRENT_DATA:?}:/downloads
-    networks:
-      - internal-containers
-
+      
   unpackerr:
     container_name: unpackerr
     image: ghcr.io/hotio/unpackerr:latest
