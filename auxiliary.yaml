@@ -16,14 +16,14 @@ services:
 
   cross-seed:
     container_name: cross-seed
-    image: crossseed/cross-seed
+    image: crossseed/cross-seed:master
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
     volumes:
-      - ${CONFIG_ROOT:?}/cross-seed:/config
-      - ${CONFIG_ROOT:?}/qbittorrent/qBittorrent/BT_backup:/torrents:ro
+      - ${CONFIG_ROOT:?}/cross-seed6:/config
+      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/torrents:ro
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
       - ${TORRENT_DATA:?}:/downloads
     expose:
@@ -46,22 +46,7 @@ services:
       - ${CONFIG_ROOT:?}/omegabrr:/config
     networks:
       - internal-containers
-
-  qbit_manage:
-    container_name: qbit_manage
-    image: bobokun/qbit_manage
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-      - QBT_SCHEDULE=1
-      - QBT_SKIP_QB_VERSION_CHECK=True
-    volumes:
-      - ${CONFIG_ROOT:?}/qbitmanage:/config
-      - ${TORRENT_DATA:?}:/downloads
-    networks:
-      - internal-containers
-
+      
   unpackerr:
     container_name: unpackerr
     image: ghcr.io/hotio/unpackerr:latest

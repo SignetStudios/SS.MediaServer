@@ -22,6 +22,10 @@ services:
   qbittorrent:
     container_name: qbittorrent
     image: lscr.io/linuxserver/qbittorrent:latest
+    # ports:
+    #   - 8080:8080
+    #   - 6881:6881
+    #   - 6881:6881/udp
     environment:
       - PUID=1000
       - PGID=1000
@@ -39,6 +43,30 @@ services:
     network_mode: "service:gluetun"
     # networks:
     #   - internal-containers
+    restart: unless-stopped
+
+  rutorrent:
+    container_name: rutorrent
+    image: crazymax/rtorrent-rutorrent:latest
+    environment:
+      - TZ=America/Chicago
+      - XMLRPC_PORT=7441
+      - RUTORRENT_PORT=80
+      - RT_INC_PORT=43952
+      - RT_LOG_XMLRPC=true
+      - RT_LOG_EXECUTE=true
+    # ports:
+    #   - "5000:5000"
+    #   - "51413:51413"
+    #   - "6881:6881/udp"
+    # expose:
+    #   - "80"
+    volumes:
+      - ${CONFIG_ROOT:?}/ruTorrent:/data
+      - ${TORRENT_DATA:?}:/downloads
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
+      - ${SCRIPTS_ROOT:?}:/scripts
+    network_mode: service:gluetun
     restart: unless-stopped
 
   autobrr:
