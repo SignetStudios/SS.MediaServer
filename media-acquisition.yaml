@@ -19,25 +19,6 @@ services:
       - internal-containers
     restart: unless-stopped
 
-  qbittorrent:
-    container_name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent:latest
-    # ports:
-    #   - 8080:8080
-    #   - 6881:6881
-    #   - 6881:6881/udp
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-      - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
-    volumes:
-      - ${CONFIG_ROOT:?}/qbittorrent:/config
-      - ${TORRENT_DATA:?}:/downloads
-      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
-    network_mode: service:gluetun
-    restart: unless-stopped
-
   rutorrent:
     container_name: rutorrent
     image: crazymax/rtorrent-rutorrent:latest
