@@ -26,7 +26,7 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/tautulli:/config
       - ${BACKUP_ROOT:?}/Tautulli:/config/backups
-      - "${CONFIG_ROOT:?}/Plex/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
+      # - "${CONFIG_ROOT:?}/Plex/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
     networks: 
       - internal-containers
     restart: unless-stopped

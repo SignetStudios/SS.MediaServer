@@ -29,7 +29,7 @@ services:
       - RT_INC_PORT=43952
       - RT_LOG_XMLRPC=true
       - RT_LOG_EXECUTE=true
-    # ports:
+    # ports: # These are all exposed via the `gluetun` container
     #   - "5000:5000"
     #   - "51413:51413"
     #   - "6881:6881/udp"
