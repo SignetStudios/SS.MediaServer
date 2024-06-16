@@ -5,7 +5,7 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - VPN_SERVICE_PROVIDER=windscribe
+      - VPN_SERVICE_PROVIDER=custom
       - VPN_TYPE=openvpn
       - OPENVPN_USER=${WINDSCRIBE_USERNAME:?}
       - OPENVPN_PASSWORD=${WINDSCRIBE_PASSWORD:?}
