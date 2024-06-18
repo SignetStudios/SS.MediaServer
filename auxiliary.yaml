@@ -91,6 +91,9 @@ services:
     hostname: ssmedia.me
     volumes:
       - ${CONFIG_ROOT:?}/notifiarr:/config
+    restart: unless-stopped
+    networks:
+      - internal-containers
     
 
 volumes:
