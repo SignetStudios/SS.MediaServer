@@ -23,6 +23,8 @@ services:
     container_name: rutorrent
     image: crazymax/rtorrent-rutorrent:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - XMLRPC_PORT=7441
       - RUTORRENT_PORT=80

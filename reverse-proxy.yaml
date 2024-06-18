@@ -16,6 +16,8 @@ services:
       container_name: nginx
       image: linuxserver/swag:latest
       environment:
+        - PUID=1000
+        - PGID=1000
         - TZ=America/Chicago
         - URL=ssmedia.me
         - SUBDOMAINS=wildcard
