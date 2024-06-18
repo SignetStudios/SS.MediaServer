@@ -85,6 +85,14 @@ services:
     networks:
       - internal-containers
 
+  notifiarr:
+    container_name: notifiarr
+    image: golift/notifiarr
+    hostname: ssmedia.me
+    volumes:
+      - ${CONFIG_ROOT:?}/notifiarr:/config
+    
+
 volumes:
   netdatalib:
   netdatacache:
