@@ -31,20 +31,6 @@ services:
     restart: unless-stopped
     networks:
       - internal-containers
-
-  omegabrr:
-    container_name: omegabrr
-    image: ghcr.io/autobrr/omegabrr:latest
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Chicago
-    expose:
-      - "7441"
-    volumes:
-      - ${CONFIG_ROOT:?}/omegabrr:/config
-    networks:
-      - internal-containers
       
   unpackerr:
     container_name: unpackerr

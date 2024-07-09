@@ -4,45 +4,6 @@ include:
   - media-server.yaml
   - reverse-proxy.yaml
 
-volumes:
-  rclone: &rclone
-    driver: rclone
-    driver_opts: &rclone-opts
-      remote: "union:"
-      allow_other: "true"
-      vfs_cache_mode: full
-      poll_interval: 0
-
-  rclone_TV: 
-    <<: *rclone
-    driver_opts:
-      <<: *rclone-opts
-      remote: "union:TV"
-
-  rclone_Movies: 
-    <<: *rclone
-    driver_opts:
-      <<: *rclone-opts
-      remote: "union:Movies"
-
-  rclone_Anime:
-    <<: *rclone
-    driver_opts:
-      <<: *rclone-opts
-      remote: "union:Anime"
-
-  rclone_Temp: 
-    <<: *rclone
-    driver_opts:
-      <<: *rclone-opts
-      remote: "union:Temp"
-
-  rclone_Recycle:
-    <<: *rclone
-    driver_opts:
-      <<: *rclone-opts
-      remote: "union:Recycle"
-
 networks:
   internal-containers:
     driver: bridge
@@ -50,7 +11,3 @@ networks:
       config:
         - subnet: 172.18.0.0/16
           gateway: 172.18.0.1
-
-  hostbridge:
-    external: true
-    name: bridge
