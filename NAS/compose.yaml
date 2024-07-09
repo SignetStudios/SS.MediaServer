@@ -186,24 +186,6 @@ services:
       timeout: 3s
     restart: unless-stopped
 
-#------------- Media Server
-  tautulli:
-    container_name: tautulli
-    image: tautulli/tautulli:latest
-    environment:
-      - PUID=1026
-      - PGID=100
-      - TZ=America/Chicago
-    expose:
-      - "8181"
-    volumes:
-      - ${CONFIG_ROOT:?}/tautulli:/config
-      - ${BACKUP_ROOT:?}/Tautulli:/config/backups
-      - /volume1/docker/Plex/Library/Application Support/Plex Media Server/Logs:/plex/Logs
-    networks:
-      - internal
-    restart: unless-stopped
-
 
 volumes:
   sys_downloads:
