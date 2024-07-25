@@ -1,8 +1,220 @@
-include:
-  - auxiliary.yaml
-  - media-acquisition.yaml
-  - media-server.yaml
-  - reverse-proxy.yaml
+services:
+  authelia:
+    container_name: authelia
+    image: authelia/authelia:latest
+    environment:
+      - TZ=America/Chicago
+    expose: 
+      - "9091"
+    volumes:
+      - ${CONFIG_ROOT:?}/authelia:/config
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
+  nginx:
+    container_name: nginx
+    image: linuxserver/swag:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - URL=ssmedia.me
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      - PROPAGATION=30
+      - ONLY_SUBDOMAINS=false
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ${CONFIG_ROOT:?}/nginx:/config
+    networks:
+      internal-containers:
+        ipv4_address: 172.18.1.1
+    cap_add:
+      - NET_ADMIN
+    healthcheck:
+      test: curl localhost:80/health-check || exit 1
+      interval: 60s
+      timeout: 3s
+    restart: unless-stopped
+    
+  overseerr:
+    container_name: overseerr
+    image: sctx/overseerr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    expose:
+      - "3579"
+    volumes:
+      - ${CONFIG_ROOT:?}/overseerr:/app/config
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
+  tautulli:
+    container_name: tautulli
+    image: tautulli/tautulli:latest
+    environment: 
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    expose: 
+      - "8181"
+    volumes:
+      - ${CONFIG_ROOT:?}/tautulli:/config
+      - ${BACKUP_ROOT:?}/Tautulli:/config/backups
+      # - "${CONFIG_ROOT:?}/Plex/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
+    networks: 
+      - internal-containers
+    restart: unless-stopped
+
+  gluetun:
+    container_name: gluetun
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=${WINDSCRIBE_USERNAME:?}
+      - OPENVPN_PASSWORD=${WINDSCRIBE_PASSWORD:?}
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/${WINDSCRIBE_OVPN_FILE:?}
+      - VPN_ENDPOINT_IP=${WINDSCRIBE_ADDRESS:?}
+      - VPN_ENDPOINT_PORT=${WINDSCRIBE_PORT:?}
+      - FIREWALL_VPN_INPUT_PORTS=${WINDSCRIBE_FWD_PORT:?}
+    volumes:
+      - ${CONFIG_ROOT:?}/gluetun:/gluetun
+    networks:
+      - internal-containers
+    restart: unless-stopped
+
+  rutorrent:
+    container_name: rutorrent
+    image: crazymax/rtorrent-rutorrent:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - XMLRPC_PORT=7441
+      - RUTORRENT_PORT=80
+      - RT_INC_PORT=43952
+      - RT_LOG_XMLRPC=true
+      - RT_LOG_EXECUTE=true
+    # ports: # These are all exposed via the `gluetun` container
+    #   - "5000:5000"
+    #   - "51413:51413"
+    #   - "6881:6881/udp"
+    # expose:
+    #   - "80"
+    volumes:
+      - ${CONFIG_ROOT:?}/ruTorrent:/data
+      - ${TORRENT_DATA:?}:/downloads
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
+      - ${SCRIPTS_ROOT:?}:/scripts
+    network_mode: service:gluetun
+    restart: unless-stopped
+
+  heimdall:
+    container_name: heimdall
+    image: lscr.io/linuxserver/heimdall:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes: 
+      - ${CONFIG_ROOT:?}/heimdall:/config
+    expose:
+      - "80"
+    restart: unless-stopped
+    networks:
+      - internal-containers
+
+  cross-seed:
+    container_name: cross-seed
+    image: crossseed/cross-seed:master
+    user: 1000:1000
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - ${CONFIG_ROOT:?}/cross-seed6:/config
+      - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/torrents:ro
+      - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
+      - ${TORRENT_DATA:?}:/downloads
+    expose:
+      - "2468"
+    command: daemon
+    restart: unless-stopped
+    networks:
+      - internal-containers
+      
+  unpackerr:
+    container_name: unpackerr
+    image: ghcr.io/hotio/unpackerr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes: 
+      - ${CONFIG_ROOT:?}/unpackerr:/config
+      - ${TORRENT_DATA:?}:/downloads
+    networks:
+      - internal-containers
+
+  netdata:
+    container_name: netdata
+    image: netdata/netdata:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ${CONFIG_ROOT:?}/netdata:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    networks:
+      - internal-containers
+
+  notifiarr:
+    container_name: notifiarr
+    image: golift/notifiarr
+    hostname: ssmedia.me
+    volumes:
+      - ${CONFIG_ROOT:?}/notifiarr:/config
+    restart: unless-stopped
+    networks:
+      - internal-containers
+
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy
+    container_name: dockerproxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+      - POST=0
+    restart: unless-stopped
+
+volumes:
+  netdatalib:
+  netdatacache:
+
 
 networks:
   internal-containers:
