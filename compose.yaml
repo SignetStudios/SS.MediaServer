@@ -216,6 +216,8 @@ services:
     environment:
       - CONTAINERS=1
       - POST=0
+    networks: 
+      - internal-containers
     restart: unless-stopped
 
 volumes:
