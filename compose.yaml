@@ -25,9 +25,16 @@ services:
       - DNSPLUGIN=cloudflare
       - PROPAGATION=30
       - ONLY_SUBDOMAINS=false
-    ports:
-      - "443:443"
-      - "80:80"
+      - DOCKER_MODS=linuxserver/mods:swag-auto-proxy|linuxserver/mods:universal-docker|linuxserver/mods:universal-cloudflared
+      - DOCKER_HOST=dockerproxy
+      - CF_ZONE_ID=${CF_ZONE_ID:?}
+      - CF_ACCOUNT_ID=${CF_ACCOUNT_ID:?}
+      - CF_API_TOKEN=${CF_API_TOKEN:?}
+      - CF_TUNNEL_NAME=${CF_TUNNEL_NAME:?}
+      - CF_TUNNEL_PASSWORD=${CF_TUNNEL_PASSWORD:?}
+      - FILE__CF_TUNNEL_CONFIG=/config/tunnelconfig.yml
+    extra_hosts:
+      - ssmedia.me:127.0.0.1
     volumes:
       - ${CONFIG_ROOT:?}/nginx:/config
     networks:
