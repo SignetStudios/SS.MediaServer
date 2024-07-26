@@ -4,8 +4,8 @@ services:
     image: authelia/authelia:latest
     environment:
       - TZ=America/Chicago
-    expose: 
-      - "9091"
+    labels:
+      - swag=enable
     volumes:
       - ${CONFIG_ROOT:?}/authelia:/config
     networks:
