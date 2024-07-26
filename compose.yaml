@@ -121,8 +121,6 @@ services:
     #   - "6881:6881/udp"
     # expose:
     #   - "80"
-    labels:
-      - swag=enable
     volumes:
       - ${CONFIG_ROOT:?}/ruTorrent:/data
       - ${TORRENT_DATA:?}:/downloads
