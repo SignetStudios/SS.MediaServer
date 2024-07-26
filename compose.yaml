@@ -25,7 +25,7 @@ services:
       - DNSPLUGIN=cloudflare
       - PROPAGATION=30
       - ONLY_SUBDOMAINS=false
-      - DOCKER_MODS=linuxserver/mods:swag-auto-proxy|linuxserver/mods:universal-docker|linuxserver/mods:universal-cloudflared
+      - DOCKER_MODS=linuxserver/mods:swag-auto-proxy|linuxserver/mods:universal-docker|linuxserver/mods:universal-cloudflared|linuxserver/mods:swag-auto-reload
       - DOCKER_HOST=dockerproxy
       - CF_ZONE_ID=${CF_ZONE_ID:?}
       - CF_ACCOUNT_ID=${CF_ACCOUNT_ID:?}
@@ -55,6 +55,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
+    labels:
+      - swag=enable
     expose:
       - "3579"
     volumes:
@@ -70,8 +72,8 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
-    expose: 
-      - "8181"
+    labels:
+      - swag=enable
     volumes:
       - ${CONFIG_ROOT:?}/tautulli:/config
       - ${BACKUP_ROOT:?}/Tautulli:/config/backups
@@ -135,8 +137,8 @@ services:
       - TZ=America/Chicago
     volumes: 
       - ${CONFIG_ROOT:?}/heimdall:/config
-    expose:
-      - "80"
+    labels:
+      - swag=enable
     restart: unless-stopped
     networks:
       - internal-containers
@@ -152,8 +154,8 @@ services:
       - ${CONFIG_ROOT:?}/ruTorrent/rtorrent/.session:/torrents:ro
       - ${TORRENT_DATA:?}/cross-seeds:/cross-seeds
       - ${TORRENT_DATA:?}:/downloads
-    expose:
-      - "2468"
+    labels:
+      - swag=enable
     command: daemon
     restart: unless-stopped
     networks:
@@ -184,6 +186,8 @@ services:
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
+    labels:
+      - swag=enable
     volumes:
       - ${CONFIG_ROOT:?}/netdata:/etc/netdata
       - netdatalib:/var/lib/netdata
@@ -209,7 +213,7 @@ services:
       - internal-containers
 
   dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy
+    image: lscr.io/linuxserver/socket-proxy:latest
     container_name: dockerproxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
