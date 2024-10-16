@@ -157,6 +157,8 @@ services:
     networks:
       - internal
     restart: unless-stopped
+    logging:
+      driver: none
 
   nginx:
     container_name: nginx
