@@ -11,6 +11,8 @@ services:
     networks:
       - internal-containers
     restart: unless-stopped
+    logging:
+      driver: none
 
   nginx:
     container_name: nginx
