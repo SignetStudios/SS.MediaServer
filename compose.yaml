@@ -49,7 +49,7 @@ services:
       interval: 60s
       timeout: 3s
     restart: unless-stopped
-    
+
   overseerr:
     container_name: overseerr
     image: sctx/overseerr:latest
@@ -71,7 +71,7 @@ services:
   tautulli:
     container_name: tautulli
     image: tautulli/tautulli:latest
-    environment: 
+    environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
@@ -81,7 +81,7 @@ services:
       - ${CONFIG_ROOT:?}/tautulli:/config
       - ${BACKUP_ROOT:?}/Tautulli:/config/backups
       # - "${CONFIG_ROOT:?}/Plex/Library/Application Support/Plex Media Server/Logs:/plex/Logs"
-    networks: 
+    networks:
       - internal-containers
     restart: unless-stopped
 
@@ -165,7 +165,7 @@ services:
     restart: unless-stopped
     networks:
       - internal-containers
-      
+
   unpackerr:
     container_name: unpackerr
     image: ghcr.io/hotio/unpackerr:latest
@@ -173,11 +173,28 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
-    volumes: 
+    volumes:
       - ${CONFIG_ROOT:?}/unpackerr:/config
       - ${TORRENT_DATA:?}:/downloads
-    networks:
-      - internal-containers
+#    network_mode: service:ts-unpackerr
+#    depends_on:
+#      - ts-unpackerr
+
+  ts-unpackerr:
+    container_name: ts-unpackerr
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=unpackerr
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/unpackerr/state:/var/lib/tailscale
+    network_mode: service:unpackerr
+    depends_on:
+      - unpackerr
 
   netdata:
     container_name: netdata
