@@ -68,6 +68,24 @@ services:
       - internal-containers
     restart: unless-stopped
 
+  ts-overseerr:
+    container_name: ts-overseerr
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=overseerr
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/overseerr/state:/var/lib/tailscale
+      - ${CONFIG_ROOT:?}/tailscale/overseerr/config:/config
+    network_mode: service:overseerr
+    depends_on:
+      - overseerr
+
   tautulli:
     container_name: tautulli
     image: tautulli/tautulli:latest
@@ -176,9 +194,6 @@ services:
     volumes:
       - ${CONFIG_ROOT:?}/unpackerr:/config
       - ${TORRENT_DATA:?}:/downloads
-#    network_mode: service:ts-unpackerr
-#    depends_on:
-#      - ts-unpackerr
 
   ts-unpackerr:
     container_name: ts-unpackerr
