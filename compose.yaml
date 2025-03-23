@@ -313,6 +313,24 @@ services:
     logging:
       driver: none
 
+  ts-netdata:
+    container_name: ts-netdata
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=netdata-sys
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/netdata/state:/var/lib/tailscale
+      - ${CONFIG_ROOT:?}/tailscale/netdata/config:/config
+    network_mode: service:netdata
+    depends_on:
+      - netdata
+
   notifiarr:
     container_name: notifiarr
     image: golift/notifiarr
