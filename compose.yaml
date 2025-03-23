@@ -103,6 +103,24 @@ services:
       - internal-containers
     restart: unless-stopped
 
+  ts-tautulli:
+    container_name: ts-tautulli
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=tautulli
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/tautulli/state:/var/lib/tailscale
+      - ${CONFIG_ROOT:?}/tailscale/tautulli/config:/config
+    network_mode: service:tautulli
+    depends_on:
+      - tautulli
+
   gluetun:
     container_name: gluetun
     image: qmcgaw/gluetun
@@ -151,6 +169,23 @@ services:
     logging:
       driver: none
 
+  ts-rutorrent:
+    container_name: ts-rutorrent
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=rutorrent
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/rutorrent/state:/var/lib/tailscale
+    network_mode: service:rutorrent
+    depends_on:
+      - rutorrent
+
   heimdall:
     container_name: heimdall
     image: lscr.io/linuxserver/heimdall:latest
@@ -165,6 +200,23 @@ services:
     restart: unless-stopped
     networks:
       - internal-containers
+
+  ts-heimdall:
+    container_name: ts-heimdall
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=heimdall
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/heimdall/state:/var/lib/tailscale
+    network_mode: service:heimdall
+    depends_on:
+      - heimdall
 
   cross-seed:
     container_name: cross-seed
@@ -183,6 +235,23 @@ services:
     restart: unless-stopped
     networks:
       - internal-containers
+
+  ts-cross-seed:
+    container_name: ts-cross-seed
+    image: tailscale/tailscale:latest
+    environment:
+      - TS_AUTHKEY=${TAILSCALE_AUTHKEY:?}
+      - TS_HOSTNAME=cross-seed
+      - TS_ACCEPT_DNS=true
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+      - TS_EXTRA_ARGS=--ssh
+    volumes:
+      - ${CONFIG_ROOT:?}/tailscale/cross-seed/state:/var/lib/tailscale
+    network_mode: service:cross-seed
+    depends_on:
+      - cross-seed
 
   unpackerr:
     container_name: unpackerr
