@@ -111,7 +111,7 @@ services:
       - TS_HOSTNAME=tautulli
       - TS_ACCEPT_DNS=true
       - TS_STATE_DIR=/var/lib/tailscale
-      #- TS_SERVE_CONFIG=/config/serve.json
+      - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
       - TS_EXTRA_ARGS=--ssh
     volumes:
@@ -177,6 +177,7 @@ services:
       - TS_HOSTNAME=rutorrent
       - TS_ACCEPT_DNS=true
       - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
       - TS_EXTRA_ARGS=--ssh
     volumes:
@@ -209,7 +210,7 @@ services:
       - TS_HOSTNAME=heimdall
       - TS_ACCEPT_DNS=true
       - TS_STATE_DIR=/var/lib/tailscale
-      #- TS_SERVE_CONFIG=/config/serve.json
+      - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
       - TS_EXTRA_ARGS=--ssh
     volumes:
@@ -245,7 +246,6 @@ services:
       - TS_HOSTNAME=cross-seed
       - TS_ACCEPT_DNS=true
       - TS_STATE_DIR=/var/lib/tailscale
-      #- TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
       - TS_EXTRA_ARGS=--ssh
     volumes:
